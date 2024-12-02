@@ -7,12 +7,6 @@
 #define STB_DS_IMPLEMENTATION
 #include "../libs/stb_ds.h"
 
-int int_compare(const void* a, const void* b) 
-{
-    // If a is smaller, positive value will be returned
-    return (*(int*)a - *(int*)b);
-}
-
 int part_one(bool test)
 {
     int *l_array = NULL;
@@ -32,7 +26,7 @@ int part_one(bool test)
     }
 
     char *line = strtok(input_text, "\n");
-    while (line != NULL) {
+    while (line != 0) {
 
         // Tokenize each line by space to extract numbers
         int first_num, second_num;
@@ -41,12 +35,12 @@ int part_one(bool test)
             arrput(r_array, second_num);
         }
 
-        // Get the next line
         line = strtok(NULL, "\n");
     }
+    free(input_text);
 
-    qsort(l_array, arrlen(l_array), sizeof(int), int_compare);
-    qsort(r_array, arrlen(r_array), sizeof(int), int_compare);
+    hf_sort_int_array(l_array, arrlen(l_array), "asc");
+    hf_sort_int_array(r_array, arrlen(r_array), "asc");
 
     for(int i = 0; i < arrlen(l_array); i++)
     {
@@ -54,7 +48,6 @@ int part_one(bool test)
         total += abs(res);
     }
 
-    free(input_text);
     arrfree(l_array);
     arrfree(r_array);
     return total;
@@ -92,8 +85,8 @@ int part_two(bool test)
         line = strtok(NULL, "\n");
     }
 
-    qsort(l_array, arrlen(l_array), sizeof(int), int_compare);
-    qsort(r_array, arrlen(r_array), sizeof(int), int_compare);
+    hf_sort_int_array(l_array, arrlen(l_array), "asc");
+    hf_sort_int_array(r_array, arrlen(r_array), "asc");
 
     for(int i = 0; i < arrlen(l_array); i++)
     {
@@ -121,9 +114,9 @@ int part_two(bool test)
 
 int main(void)
 {
-    int total_one = part_one(false);
+    int total_one = part_one(0);
     printf("%d\n", total_one);
 
-    int total_two = part_two(false);
+    int total_two = part_two(0);
     printf("%d\n", total_two);
 }
