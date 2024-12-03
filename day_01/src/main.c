@@ -16,9 +16,9 @@ int part_one(bool test)
 
     int res = 0;
     if(test) {
-        res = hf_read_file_to_buffer("./input_test.txt", &input_text);
+        res = hf_read_file_to_buffer("./input_test.txt", &input_text, 1);
     } else {
-        res = hf_read_file_to_buffer("./input.txt", &input_text);
+        res = hf_read_file_to_buffer("./input.txt", &input_text, 1);
     }
 
     if (res != 0 || input_text == NULL) {
@@ -62,9 +62,9 @@ int part_two(bool test)
 
     int res = 0;
     if(test) {
-        res = hf_read_file_to_buffer("./input_test.txt", &input_text);
+        res = hf_read_file_to_buffer("./input_test.txt", &input_text, 1);
     } else {
-        res = hf_read_file_to_buffer("./input.txt", &input_text);
+        res = hf_read_file_to_buffer("./input.txt", &input_text, 1);
     }
 
     if (res != 0 || input_text == NULL) {

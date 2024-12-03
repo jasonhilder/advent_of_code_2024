@@ -23,7 +23,7 @@
 // -------------------------------------- 
 
 // Function declarations (API)
-int hf_read_file_to_buffer(char* file_path, char** out_buffer);
+int hf_read_file_to_buffer(char* file_path, char** out_buffer, int add_terminator);
 void hf_sort_int_array(int* array, size_t arrlen, const char* order);
 
 // -------------------------------------- 
@@ -70,7 +70,7 @@ static inline int int_compare_desc(const void* a, const void* b) {
 // Takes file path and a buffer which will get 
 // reallocated to the full file size. 
 // Note: buffer still needs to be manually free'd
-int hf_read_file_to_buffer(char* file_path, char** out_buffer)
+int hf_read_file_to_buffer(char* file_path, char** out_buffer, int add_terminator)
 {
     FILE *file = fopen(file_path, "rb");
     if(file == NULL)
@@ -90,7 +90,8 @@ int hf_read_file_to_buffer(char* file_path, char** out_buffer)
     rewind(file);
 
     // Reallocate memory for the buffer, check if realloc is successful
-    char *buffer = realloc(*out_buffer, file_size + 1);
+    // Realloc with extra space if terminator is needed
+    char *buffer = realloc(*out_buffer, file_size + (add_terminator ? 1 : 0));
     if (buffer == NULL)
     {
         perror("Memory allocation failed");
@@ -109,8 +110,11 @@ int hf_read_file_to_buffer(char* file_path, char** out_buffer)
         return -1;
     }
 
-    // Add the null terminator at the end of the buffer
-    (*out_buffer)[file_size] = '\0';
+    // Add null terminator if needed
+    if (add_terminator == 1)
+    {
+        (*out_buffer)[file_size] = '\0';
+    }
 
     fclose(file);
     return 0;
